@@ -1,11 +1,17 @@
+// Using environment variables
 pipeline {
     //Using a nodeJS docker container
-    //Check out https://www.jenkins.io/doc/book/pipeline/syntax/#agent
-    agent { docker { image 'node:16.13.1-alpine' } }
+    agent { docker { image 'alpine:latest' } }
+    environment {
+        DISABLE_AUTH = 'true'
+        DB_ENGINE = 'sqlite'
+    }
     stages {
-        stage('test') {
+        stage('build') {
             steps {
-                sh 'node --version'
+                echo "Database engine is ${DB_ENGINE}"
+                echo "DISABLE_AUTH is ${DISABLE_AUTH}"
+                sh 'printenv'
             }
         }
     }
